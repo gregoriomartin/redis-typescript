@@ -6,16 +6,21 @@ console.log("Logs from your program will appear here!");
 // Uncomment this block to pass the first stage
 const server: net.Server = net.createServer((connection: net.Socket) => {
     // Handle connection
-    connection.on("data", (data: string) => {
-        let command: string = data.trim().split(/\s+/)[0];
+    connection.on("data", (data: Buffer) => {
+        const args = data.toString().split("\r\n");
+        console.log("Args received: ", args);
+        const command: string = args[2];
+        console.log("Command: ", command);
         switch (command) {
             default:
             case "PING":
+                console.log("PING command received");
                 connection.write(`+PONG\r\n`);
                 break;
             case "ECHO":
-                let str: string = data.trim().split(/\s+/).slice(1).join(" ");
-                connection.write(`$${str.length}+${str}\r\n`);
+                console.log("ECHO command received");
+                let str: string = args[4];
+                connection.write(`$${str.length}\r\n${str}\r\n`);
                 break;
         }
     });
