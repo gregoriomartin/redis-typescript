@@ -16,7 +16,7 @@ setInterval(() => {
             map.delete(key);
         }
     }
-}, 50);
+}, 10);
 
 // Uncomment this block to pass the first stage
 const server: net.Server = net.createServer((connection: net.Socket) => {
