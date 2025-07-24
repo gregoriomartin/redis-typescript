@@ -52,6 +52,12 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
                     connection.write(`$-1\r\n`);
                 }
                 break;
+            case "CONFIG":
+                if (args[0] === 'GET') {
+                    if (args[1] === 'dir') connection.write(`*2\r\n$3\r\ndir\r\n$${process.argv[3].length}\r\n${process.argv[3]}\r\n`)
+                    else connection.write(`*2\r\n$10\r\ndbfilename\r\n$${process.argv[5].length}\r\n${process.argv[5]}\r\n`)
+                }
+                break;
         }
     });
 });
